@@ -4,10 +4,10 @@ import { generatePDF } from "@/app/utils/pdfGenerator";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    name: 'Dharam Kumar',
-    designation: 'Mern Developer',
-    joiningDate: '17-04-2025',
-    ctc: '1,32,000'
+    name: 'Employee Name',
+    designation: 'Desgination',
+    joiningDate: 'DOJ',
+    ctc: '000'
   });
   
   const [logo, setLogo] = useState<File | null>(null);

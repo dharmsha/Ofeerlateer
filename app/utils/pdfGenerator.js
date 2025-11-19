@@ -34,10 +34,10 @@ export const generatePDF = (formData, logoImage = null) => {
         
         doc.setFontSize(9); // Slightly smaller to fit better
         doc.setFont('helvetica', 'normal');
-        doc.text('2nd Floor, Sharda Tower, Ashiana - Digha Rd,', companyStartX, 22, { align: 'left' });
-        doc.text('opposite Sunrise Hospital, Rajeev Nagar,', companyStartX, 27, { align: 'left' });
-        doc.text('Rukanpura, Patna, Bihar 800024', companyStartX, 32, { align: 'left' });
-        doc.text('📖 9973725719 📗 support@creatorsmind.co.in', companyStartX, 37, { align: 'left' });
+        doc.text('1 ST Floor, Siyaram Mention, ', companyStartX, 22, { align: 'left' });
+        doc.text('opposite Telephone Exchange, Near P&M Mall ', companyStartX, 27, { align: 'left' });
+        doc.text('Khurji, Patna, Bihar 800010', companyStartX, 32, { align: 'left' });
+        doc.text('9973725719 support@creatorsmind.co.in', companyStartX, 37, { align: 'left' });
         doc.text('GSTIN: 10A0CV6337M1Z2', companyStartX, 42, { align: 'left' });
         
       } catch (error) {
@@ -62,9 +62,9 @@ export const generatePDF = (formData, logoImage = null) => {
     
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.text('2nd Floor, Sharda Tower, Ashiana - Digha Rd, opposite Sunrise Hospital,', pageWidth / 2, 22, { align: 'center' });
-    doc.text('Rajeev Nagar, Rukanpura, Patna, Bihar 800024', pageWidth / 2, 27, { align: 'center' });
-    doc.text('📖 9973725719 📗 support@creatorsmind.co.in', pageWidth / 2, 32, { align: 'center' });
+    doc.text('1 ST Floor, Siyaram Mention,opposite Telephone Exchange, Near P&M Mall ', pageWidth / 2, 22, { align: 'center' });
+    doc.text('Khurji, Patna, Bihar 800024', pageWidth / 2, 27, { align: 'center' });
+    doc.text(' 9973725719 support@creatorsmind.co.in', pageWidth / 2, 32, { align: 'center' });
     doc.text('GSTIN: 10A0CV6337M1Z2', pageWidth / 2, 37, { align: 'center' });
     
     doc.line(10, 42, pageWidth - 10, 42);
@@ -102,7 +102,7 @@ export const generatePDF = (formData, logoImage = null) => {
 
   doc.setFontSize(12);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Mr. ${formData.name},`, margin, yPosition);
+  doc.text(`Mr/Mrs. ${formData.name},`, margin, yPosition);
   yPosition += 10;
 
   doc.setFont('helvetica', 'bold');
