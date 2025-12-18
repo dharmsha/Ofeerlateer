@@ -30,7 +30,7 @@ export const generatePDF = (formData, logoImage = null) => {
         
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
-        doc.text('VATS CREATIVE DIGITAL SOLUTIONS Pvt. Ltd', companyStartX, 15, { align: 'left' });
+        doc.text('VATS CREATIVE DIGITAL SOLUTIONS PVT.LTD', companyStartX, 15, { align: 'left' });
         
         doc.setFontSize(9); // Slightly smaller to fit better
         doc.setFont('helvetica', 'normal');
@@ -38,7 +38,7 @@ export const generatePDF = (formData, logoImage = null) => {
         doc.text('opposite Telephone Exchange, Near P&M Mall ', companyStartX, 27, { align: 'left' });
         doc.text('Khurji, Patna, Bihar 800010', companyStartX, 32, { align: 'left' });
         doc.text('9973725719 support@creatorsmind.co.in', companyStartX, 37, { align: 'left' });
-        doc.text('GSTIN: 10A0CV6337M1Z2', companyStartX, 42, { align: 'left' });
+        doc.text('GSTIN: 10AAJCV6337M1Z2', companyStartX, 42, { align: 'left' });
         
       } catch (error) {
         console.log('Logo could not be added:', error);
