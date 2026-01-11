@@ -90,8 +90,8 @@ export default function Home() {
   
   // UPDATED Experience Letter Form State with correct types
   const [experienceFormData, setExperienceFormData] = useState<ExperienceLetterData>({
-    companyName: 'TechCorp Solutions Pvt. Ltd.',
-    companyAddress: '123 Business Street, Tech Park, Mumbai - 400001, Maharashtra, India',
+    companyName: 'Vats Creative Digital Solution Pvt.Ltd',
+    companyAddress: '1st Floor, Siyaram Mention, Opposite Telephone Exchange, Near P&M Mall',
     employeeName: 'Dharm Kumar',
     employeeId: 'EMP001',
     designation: 'Senior Software Engineer',
