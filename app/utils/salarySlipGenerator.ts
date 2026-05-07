@@ -81,7 +81,7 @@ export function generateSalarySlipPDF(data: SalarySlipData) {
     doc.setFont('helvetica', 'normal');
     doc.text('1st Floor, Siyaram Mention, Opposite Telephone Exchange, Near P&M Mall', 
              centerX, 28, { align: 'center' });
-    doc.text('GSTIN: 10A0CV6337M1Z2 | Phone: 9973725719 | Email: support@creatorsmind.co.in', 
+    doc.text('GSTIN: 10AAJCV6337M1Z2| Phone: 9973725719 | Email: support@creatorsmind.co.in', 
              centerX, 34, { align: 'center' });
     
     // 2. SALARY SLIP TITLE

@@ -55,17 +55,22 @@ export default function Home() {
     type: 'offer' as 'offer' | 'salary' | 'experience'
   });
   
-  // Offer Letter Form State
+  // Offer Letter Form State (updated to match the new template)
   const [offerFormData, setOfferFormData] = useState({
-    name: 'Employee Name',
-    designation: 'Designation',
-    joiningDate: 'DOJ',
-    ctc: '000',
-    department: 'Engineering',
-    reportingManager: 'Shrikant Kumar',
-    workLocation: 'Remote',
-    probationPeriod: '3 months',
-    noticePeriod: '30 days'
+    candidateName: 'Candidate Name',
+    jobTitle: 'Job Title',
+    joiningDate: 'DD/MM/YYYY',
+    ctc: 'Amount',
+    reportingManager: 'Reporting Manager/Department',
+    workLocation: 'City, State',
+    companyName: 'VATS CREATIVE DIGITAL SOLUTIONS PVT. LTD.',
+    companyAddress: '1st Floor, Siyaram Mention, Opp. Telephone Exchange, Near P&M Mall\nKhurji, Patna, Bihar – 800024',
+    companyPhone: '9973725719',
+    companyEmail: 'support@creatorsmind.co.in',
+    gstin: '10AAJCV6337M1Z2',
+    offerDate: new Date().toLocaleDateString('en-GB'),
+    hrName: 'Rani Shreya',
+    hrDesignation: 'HR Manager'
   });
   
   // Salary Slip Form State
@@ -88,7 +93,7 @@ export default function Home() {
     professionalTax: '200'
   });
   
-  // UPDATED Experience Letter Form State with correct types
+  // Experience Letter Form State
   const [experienceFormData, setExperienceFormData] = useState<ExperienceLetterData>({
     companyName: 'Vats Creative Digital Solution Pvt.Ltd',
     companyAddress: '1st Floor, Siyaram Mention, Opposite Telephone Exchange, Near P&M Mall',
@@ -174,7 +179,6 @@ export default function Home() {
         setExperienceFormData(prev => ({
           ...prev,
           ...parsedData,
-          // Ensure companyLogo is properly handled
           companyLogo: parsedData.companyLogo || null
         }));
       } catch (error) {
@@ -186,7 +190,6 @@ export default function Home() {
 
   // Save experience form data
   const saveExperienceData = () => {
-    // Convert logo preview to base64 if it's a data URL
     const dataToSave = {
       ...experienceFormData,
       companyLogo: logoPreview || null
@@ -210,7 +213,6 @@ export default function Home() {
     });
   };
 
-  // UPDATED Experience Change Handler
   const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setExperienceFormData({
@@ -255,13 +257,11 @@ export default function Home() {
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         alert('Please upload an image file');
         return;
       }
       
-      // Validate file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         alert('Image size should be less than 2MB');
         return;
@@ -273,7 +273,6 @@ export default function Home() {
         if (event.target?.result) {
           const result = event.target.result as string;
           setLogoPreview(result);
-          // Also update the experience form data with logo
           setExperienceFormData(prev => ({
             ...prev,
             companyLogo: result
@@ -296,15 +295,27 @@ export default function Home() {
     }
   };
 
-  // FIXED: Type assertion to bypass TypeScript error temporarily
+  // FIXED: Map the offer form data to what pdfGenerator.js expects
   const handleGenerateOfferPDF = () => {
-    // Use type assertion to bypass the strict type checking
+    // Map the new form fields to the expected format
+    const mappedFormData = {
+      name: offerFormData.candidateName,
+      designation: offerFormData.jobTitle,
+      joiningDate: offerFormData.joiningDate,
+      ctc: offerFormData.ctc,
+      reportingManager: offerFormData.reportingManager,
+      workLocation: offerFormData.workLocation,
+      department: '',
+      probationPeriod: '',
+      noticePeriod: ''
+    };
+    
     const generatePDFTyped = generatePDF as (data: any, logo?: string | null | undefined) => void;
-    generatePDFTyped(offerFormData, logoPreview);
+    generatePDFTyped(mappedFormData, logoPreview);
     
     setModalData({
       title: 'Offer Letter Generated Successfully!',
-      message: `Offer letter for ${offerFormData.name} has been generated with ${offerFormData.ctc} CTC.`,
+      message: `Offer letter for ${offerFormData.candidateName} has been generated with ₹${offerFormData.ctc} CTC.`,
       netSalary: 0,
       type: 'offer'
     });
@@ -312,7 +323,6 @@ export default function Home() {
   };
 
   const handleGenerateSalaryPDF = () => {
-    // Calculate totals
     const basic = parseInt(salaryFormData.basicSalary) || 0;
     const hra = parseInt(salaryFormData.hra) || 0;
     const da = parseInt(salaryFormData.da) || 0;
@@ -325,7 +335,6 @@ export default function Home() {
     const totalDeductions = pf + tds + pt;
     const netSalary = totalEarnings - totalDeductions;
 
-    // Create salary slip data
     const salarySlipData: SalarySlipData = {
       month: salaryFormData.month,
       employee: {
@@ -367,17 +376,14 @@ export default function Home() {
     setShowSuccessModal(true);
   };
 
-  // UPDATED Experience Letter PDF Generation with proper typing
   const handleGenerateExperiencePDF = async () => {
     setIsLoading(true);
     try {
-      // Prepare data for experience letter
       const experienceData: ExperienceLetterData = {
         ...experienceFormData,
         companyLogo: logoPreview || experienceFormData.companyLogo || null
       };
 
-      // Call the function with proper data
       await generateExperienceLetterPDF(experienceData);
       
       setModalData({
@@ -395,13 +401,11 @@ export default function Home() {
     }
   };
 
-  // Calculate employment duration
   const calculateEmploymentDuration = () => {
     try {
       const start = new Date(experienceFormData.dateOfJoining);
       const end = new Date(experienceFormData.dateOfLeaving);
       
-      // Check if dates are valid
       if (isNaN(start.getTime()) || isNaN(end.getTime())) {
         return 'Invalid dates';
       }
@@ -434,7 +438,6 @@ export default function Home() {
     }
   };
 
-  // Calculate salary totals
   const calculateSalaryTotals = () => {
     const basic = parseInt(salaryFormData.basicSalary) || 0;
     const hra = parseInt(salaryFormData.hra) || 0;
@@ -474,15 +477,20 @@ export default function Home() {
   const handleResetForm = () => {
     if (activeTab === 'offer') {
       setOfferFormData({
-        name: '',
-        designation: '',
+        candidateName: '',
+        jobTitle: '',
         joiningDate: '',
         ctc: '',
-        department: '',
         reportingManager: '',
         workLocation: '',
-        probationPeriod: '',
-        noticePeriod: ''
+        companyName: 'VATS CREATIVE DIGITAL SOLUTIONS PVT. LTD.',
+        companyAddress: '1st Floor, Siyaram Mention, Opp. Telephone Exchange, Near P&M Mall\nKhurji, Patna, Bihar – 800024',
+        companyPhone: '9973725719',
+        companyEmail: 'support@creatorsmind.co.in',
+        gstin: '10AAJCV6337M1Z2',
+        offerDate: new Date().toLocaleDateString('en-GB'),
+        hrName: 'Rani Shreya',
+        hrDesignation: 'HR Manager'
       });
     } else if (activeTab === 'salary') {
       setSalaryFormData({
@@ -526,7 +534,6 @@ export default function Home() {
     }
   };
 
-  // Format date for display
   const formatDisplayDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -759,15 +766,19 @@ export default function Home() {
               {/* Offer Form */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
-                  { label: "Employee Name", name: "name", placeholder: "Enter employee name", icon: User },
-                  { label: "Designation", name: "designation", placeholder: "Enter designation", icon: Briefcase },
-                  { label: "Department", name: "department", placeholder: "Enter department", icon: Building },
-                  { label: "Joining Date", name: "joiningDate", placeholder: "DD-MM-YYYY", icon: Calendar },
+                  { label: "Candidate Name", name: "candidateName", placeholder: "Enter candidate name", icon: User },
+                  { label: "Job Title", name: "jobTitle", placeholder: "Enter job title", icon: Briefcase },
+                  { label: "Joining Date", name: "joiningDate", placeholder: "DD/MM/YYYY", icon: Calendar },
                   { label: "CTC (per annum)", name: "ctc", placeholder: "Enter CTC amount", icon: Banknote },
-                  { label: "Reporting Manager", name: "reportingManager", placeholder: "Manager name", icon: User },
-                  { label: "Work Location", name: "workLocation", placeholder: "e.g., Remote, Mumbai", icon: MapPin },
-                  { label: "Probation Period", name: "probationPeriod", placeholder: "e.g., 3 months", icon: Clock },
-                  { label: "Notice Period", name: "noticePeriod", placeholder: "e.g., 30 days", icon: Clock },
+                  { label: "Reporting Manager/Dept", name: "reportingManager", placeholder: "Manager name or Department", icon: User },
+                  { label: "Work Location", name: "workLocation", placeholder: "City, State", icon: MapPin },
+                  { label: "Company Name", name: "companyName", placeholder: "Company name", icon: Building },
+                  { label: "Company Phone", name: "companyPhone", placeholder: "Phone number", icon: Phone },
+                  { label: "Company Email", name: "companyEmail", placeholder: "Email address", icon: Mail },
+                  { label: "GSTIN", name: "gstin", placeholder: "GST number", icon: FileText },
+                  { label: "Offer Date", name: "offerDate", placeholder: "DD/MM/YYYY", icon: Calendar },
+                  { label: "HR Name", name: "hrName", placeholder: "HR representative name", icon: User },
+                  { label: "HR Designation", name: "hrDesignation", placeholder: "HR designation", icon: Award }
                 ].map((field) => (
                   <div key={field.name} className="group">
                     <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -784,6 +795,20 @@ export default function Home() {
                     />
                   </div>
                 ))}
+                <div className="md:col-span-2 lg:col-span-3">
+                  <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                    <MapPin className="h-4 w-4 mr-2 text-gray-400" />
+                    Company Address
+                  </label>
+                  <textarea
+                    name="companyAddress"
+                    value={offerFormData.companyAddress}
+                    onChange={handleOfferChange}
+                    rows={3}
+                    className="w-full px-4 py-3 border-2 border-gray-200 bg-white rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+                    placeholder="Full company address"
+                  />
+                </div>
               </div>
 
               {/* Generate Button */}
@@ -951,7 +976,7 @@ export default function Home() {
             </div>
           )}
 
-          {/* UPDATED Main Content - Experience Letter */}
+          {/* Main Content - Experience Letter */}
           {activeTab === 'experience' && (
             <div className="w-full max-w-6xl space-y-8">
               {/* Employment Duration Summary */}
