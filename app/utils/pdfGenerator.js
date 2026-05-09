@@ -30,7 +30,7 @@ export const generatePDF = (formData, logoImage = null) => {
         doc.setFont('helvetica', 'normal');
         doc.text('1st Floor, Siyaram Mention, Opp. Telephone Exchange, Near P&M Mall', companyStartX, 25);
         doc.text('Khurji, Patna, Bihar – 800024', companyStartX, 30);
-        doc.text(' 9973725719 |  support@creatorsmind.co.in', companyStartX, 35);
+        doc.text(' 9973725719 |  hr@creatorsmind.co.in', companyStartX, 35);
         doc.text('GSTIN: 10AAJCV6337M1Z2', companyStartX, 40);
       } catch (error) {
         console.log('Logo error:', error);
@@ -52,7 +52,7 @@ export const generatePDF = (formData, logoImage = null) => {
     doc.setFont('helvetica', 'normal');
     doc.text('1st Floor, Siyaram Mention, Opp. Telephone Exchange, Near P&M Mall', pageWidth / 2, 25, { align: 'center' });
     doc.text('Khurji, Patna, Bihar – 800024', pageWidth / 2, 30, { align: 'center' });
-    doc.text(' 9973725719 | ✉ support@creatorsmind.co.in', pageWidth / 2, 35, { align: 'center' });
+    doc.text(' 9973725719 | ✉ hr@creatorsmind.co.in', pageWidth / 2, 35, { align: 'center' });
     doc.text('GSTIN: 10AAJCV6337M1Z2', pageWidth / 2, 40, { align: 'center' });
     doc.line(10, 48, pageWidth - 10, 48);
     return 58;

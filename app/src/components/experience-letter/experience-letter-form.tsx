@@ -211,7 +211,7 @@ export default function ExperienceLetterForm({ companyLogo }: { companyLogo: str
                   <div>
                     <p className="font-medium text-blue-900">VATS CREATIVE DIGITAL SOLUTIONS PVT. LTD</p>
                     <p className="text-sm text-blue-700 mt-1">GSTIN: 10AAJCV6337M1Z2 | Phone: 9973725719</p>
-                    <p className="text-sm text-blue-700">Email: support@creatorsmind.co.in</p>
+                    <p className="text-sm text-blue-700">Email: hr@creatorsmind.co.in</p>
                   </div>
                 </div>
               </div>
